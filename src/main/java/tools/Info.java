@@ -71,7 +71,7 @@ public class Info extends javax.swing.JFrame {
                 .addComponent(jButton_Close)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane_Info, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane_Info, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
