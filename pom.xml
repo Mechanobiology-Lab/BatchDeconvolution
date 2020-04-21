@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>27.0.1</version>
+		<relativePath />
+	</parent>
+
+	<groupId>pl.edu.uj.fais.biophysics</groupId>
+	<artifactId>batchdeconvolution_plugin</artifactId>
+	<version>0.0</version>
+
+	<name>BatchDeconvolution</name>
+	<description>Testing plugins</description>
+	<url>http://www.biophysics.fais.uj.edu.pl</url>
+	<inceptionYear>2020</inceptionYear>
+	<organization>
+		<name>Mechanobiology Lab UJ</name>
+		<url>http://www.biophysics.fais.uj.edu.pl</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>ZBaster</id>
+			<name>Zbigniew Baster</name>
+			<url>http://www.biophysics.fais.uj.edu.pl</url>
+			<roles>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Zbigniew Baster</name>
+		</contributor>
+		
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Image.sc Forum</name>
+			<archive>https://forum.image.sc/tags/imagej</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/imagej/example-legacy-plugin</connection>
+		<developerConnection>scm:git:git@github.com:imagej/example-legacy-plugin</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/imagej/example-legacy-plugin</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/imagej/example-legacy-plugin/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>None</system>
+	</ciManagement>
+
+	<properties>
+		<package-name>com.mycompany.imagej</package-name>
+		<main-class>BatchDeconvolution</main-class>
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>Jagiellonian University</license.copyrightOwners>
+	</properties>
+
+    <repositories>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/9664262/packages/maven</url>
+        </repository>
+       
+        <repository>
+          <id>central</id>
+          <name>Central Repository</name>
+          <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+          <id>ome</id>
+          <name>OME Artifactory</name>
+          <url>https://artifacts.openmicroscopy.org/artifactory/maven/</url>
+        </repository>
+
+          <repository>
+             <id>forplay-legacy</id>
+             <url>http://forplay.googlecode.com/svn/mavenrepo</url>
+          </repository>
+          <repository>
+             <id>org.apache.maven.plugins</id>
+             <url>https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin</url>
+          </repository>
+
+    </repositories>
+	<dependencies>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij</artifactId>
+		</dependency>
+	 <dependency>
+	  <groupId>commons-io</groupId>
+	  <artifactId>commons-io</artifactId>
+	  <type>jar</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.apache.maven</groupId>
+	  <artifactId>maven-model</artifactId>
+	  <version>3.6.0</version>
+	  <type>jar</type>
+	 </dependency>
+         <dependency>
+	  <groupId>ome</groupId>
+	  <artifactId>bio-formats_plugins</artifactId>	  
+	  <type>jar</type>
+	 </dependency>
+         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+	 <dependency>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-api</artifactId>
+	  <type>jar</type>
+	 </dependency>
+         <!-- https://mvnrepository.com/artifact/com.github.wendykierp/JTransforms -->
+        <dependency>
+            <groupId>com.github.wendykierp</groupId>
+            <artifactId>JTransforms</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+	</dependencies>
+</project>
