@@ -3836,8 +3836,8 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel_FFT.setText("FFT");
 
-        jComboBox_FTT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fastest", "FFTW2", "JTransforms", "Academic" }));
-        jComboBox_FTT.setSelectedIndex(3);
+        jComboBox_FTT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fastest", "FFTW2", "Academic" }));
+        jComboBox_FTT.setSelectedIndex(2);
 
         jLabel_Epsilon.setText("Epsilon");
 
