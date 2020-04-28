@@ -40,7 +40,7 @@ import tools.Settings;
  * @author  Zbigniew Baster
  */
 public class Split {
-    public static void run(Settings settings, Map.Entry<String,String> file, TreeMap<String,int[]> seriesFramesMap, TreeMap<String,Pair<double[],int[]>> pxPSF, ArrayList<String> blackList) throws IOException, FormatException{
+    public static void run(Settings settings, Map.Entry<String,String> file, TreeMap<String,int[]> positionsFrames, TreeMap<String,Pair<double[],int[]>> pxPSF, ArrayList<String> blackList) throws IOException, FormatException{
         path = settings.intermediatePath+"\\Split";
         if(!new File(path).exists()){
             new File(path).mkdirs();
@@ -98,18 +98,18 @@ public class Split {
         if(settings._PSF_calc == 0){
             file.setValue(String.format("%3.2f_%3.2f_",pxXYZ[0],pxXYZ[1])+file.getValue()); //renameing files names in "files"
         } 
-        seriesFramesMap.put(file.getValue(),new int[]{imps.length,frames});
+        positionsFrames.put(file.getValue(),new int[]{imps.length,frames});
           
-        for(int sr=0; sr < imps.length; sr++){            
+        for(int pos=0; pos < imps.length; pos++){            
             for(int fr=0;fr<frames;fr++){
                 for(int ch=0;ch<channels;ch++){
-                    outputPath=path+"\\"+file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch+".tif";   
+                    outputPath=path+"\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";   
                     if(!new File(outputPath).exists()){
-                        new FileSaver(new Duplicator().run(imps[sr], ch+1, ch+1, 1, dimensions[2], fr+1, fr+1)).saveAsTiff(outputPath);
+                        new FileSaver(new Duplicator().run(imps[pos], ch+1, ch+1, 1, dimensions[2], fr+1, fr+1)).saveAsTiff(outputPath);
                     }
                 }
             }
-            imps[sr].close();
+            imps[pos].close();
         }
         
         IJ.freeMemory();

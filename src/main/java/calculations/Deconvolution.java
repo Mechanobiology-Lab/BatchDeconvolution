@@ -27,11 +27,11 @@ import tools.Settings;
  * @author Zbigniew Baster
  */
 public class Deconvolution {
-    public static void run(Settings settings, Map.Entry<String,String> file, int sr, int fr, int ch) throws IOException, InterruptedException{
+    public static void run(Settings settings, Map.Entry<String,String> file, int pos, int fr, int ch) throws IOException, InterruptedException{
         pathDeconvolutionLab = new File("").getAbsolutePath()+"\\plugins\\DeconvolutionLab2\\DeconvolutionLab_2.jar";
-        parameters=parameters(settings, file, sr, fr, ch);
+        parameters=parameters(settings, file, pos, fr, ch);
 
-        fileImg=file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch;
+        fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
         IJ.log("Deconvolving: "+fileImg+".tif");
         
         Runtime.getRuntime().exec("java -jar \""+pathDeconvolutionLab+"\" Run"+parameters).waitFor();
@@ -41,13 +41,13 @@ public class Deconvolution {
         new File(settings.intermediatePath+"\\Log\\stats.csv").renameTo(new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv"));
         
         if(settings.delete){
-            new File(settings.intermediatePath+"\\Split\\"+file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch+".tif").delete();
+            new File(settings.intermediatePath+"\\Split\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
         }
     }  
     
-    public static String parameters(Settings settings, Map.Entry<String,String> file, int sr, int fr, int ch){
+    public static String parameters(Settings settings, Map.Entry<String,String> file, int pos, int fr, int ch){
         
-        fileImg=file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch;
+        fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
         // image
         image = " -image file "+settings.intermediatePath+"\\Split\\"+fileImg+".tif";
         

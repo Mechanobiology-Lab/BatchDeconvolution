@@ -28,18 +28,18 @@ import tools.Settings;
  * @author Zbigniew Baster
  */
 public class Log {
-    public static void create(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> seriesFrames) throws IOException{
+    public static void create(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> positionsFrames) throws IOException{
         first = true;
         pathFinalLog=settings.logPath+"\\log.csv";
         fw = new FileWriter(pathFinalLog);
         
         for(Map.Entry<String,String> file: files.entrySet()){
-            for(int sr=0; sr < seriesFrames.get(file.getValue())[0]; sr++){
-                for(int fr=0; fr < seriesFrames.get(file.getValue())[1]; fr++){
+            for(int pos=0; pos < positionsFrames.get(file.getValue())[0]; pos++){
+                for(int fr=0; fr < positionsFrames.get(file.getValue())[1]; fr++){
                     for(int ch=0; ch < settings.channels; ch++){
                         if(settings._BF.get(ch)) continue;
                         
-                        fileImg=file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch;
+                        fileImg=file.getValue()+"pos"+pos+"_fr"+fr+"_ch"+ch;
                         if(settings._PSF_calc==0)fileImg = fileImg.substring(fileImg.indexOf("_",fileImg.indexOf("_")+1)+1);
                         
                         pathLog = settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv";

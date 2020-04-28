@@ -38,7 +38,13 @@ import tools.IO;
  */
 public class Run{
     public static void run(Settings settings, ArrayList<String> extensions,JButton jButton_Run){
-
+        if( settings._PSF_calc == 2 && !(new File(settings._PSFPath).exists()) ){
+        IJ.log("PSF file not found!");
+            JOptionPane.showMessageDialog(null,"PSF file not found!\n"
+                    + "Change PSF settings and restart calculations","PSF file not found!",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if(!thread.isAlive()){
             thread = new Thread(){
                 @Override
@@ -49,7 +55,7 @@ public class Run{
                     
                     if(jButton_Run!=null)jButton_Run.setText("Stop");
                     files = new TreeMap<>();
-                    seriesFrames = new TreeMap<>();
+                    positionsFrames = new TreeMap<>();
 
                     if(jButton_Run!=null)Menu.readSettings(settings);
 
@@ -93,7 +99,7 @@ public class Run{
                                 blackList = new ArrayList<String>();
 
                                 for(Map.Entry<String,String> f:files.entrySet()){                  //has to go for all files before goin to PSF calc
-                                    Split.run(settings,f,seriesFrames,pxPSF,blackList);
+                                    Split.run(settings,f,positionsFrames,pxPSF,blackList);
                                 }
 
                                 for(Object bl: blackList.toArray()){                               //Remove from calculations files with wrong number of channels
@@ -119,7 +125,7 @@ public class Run{
 
                             //#######################################################
                             //Calculate PSFs and deconvolve
-                            calculate(settings, files, seriesFrames);
+                            calculate(settings, files, positionsFrames);
                             IJ.log("Finished"); 
                             JOptionPane.showMessageDialog(null,"Finished!","Finished!",JOptionPane.INFORMATION_MESSAGE);                      
                             
@@ -144,7 +150,7 @@ public class Run{
         }
     }
     
-    public static void calculate(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> seriesFrames){
+    public static void calculate(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> positionsFrames){
         
         pathPSF = settings.intermediatePath+"\\PSF";
         pathDeconvolved = settings.intermediatePath+"\\Deconvolved";
@@ -166,11 +172,11 @@ public class Run{
         }
         
         for(Map.Entry<String,String> file:files.entrySet()){                    //input file
-            for(int sr=0; sr<seriesFrames.get(file.getValue())[0];sr++){        //series
-                for(int fr=0; fr<seriesFrames.get(file.getValue())[1];fr++){    //
+            for(int pos=0; pos<positionsFrames.get(file.getValue())[0];pos++){        //positionss
+                for(int fr=0; fr<positionsFrames.get(file.getValue())[1];fr++){    //
                     for(int ch=0 ; ch<settings.channels ; ch++){
                                                 
-                        fileName=file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch+".tif";
+                        fileName=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
                         if(!new File(pathDeconvolved+"\\"+fileName).exists()){
                             try {
                                 
@@ -179,11 +185,11 @@ public class Run{
                                     //FileUtils.copyFile(new File(settings.intermediatePath+"\\Split\\"+fileName), new File(pathDeconvolved+"\\"+fileName));
                                 }else{   
                                     //calculate PSF
-                                    if(settings._PSF_calc != 2 && sr == 0 && fr == 0){
+                                    if(settings._PSF_calc != 2 && pos == 0 && fr == 0){
                                         if(settings._BF.get(ch)==true) continue;
                                         PSF.calculate(settings, file, ch);
                                     }
-                                    Deconvolution.run(settings, file, sr, fr, ch);
+                                    Deconvolution.run(settings, file, pos, fr, ch);
 
                                 }
                             } catch (IOException | InterruptedException ex) {
@@ -193,17 +199,17 @@ public class Run{
                     }
                 }
                 try {
-                    Combine.run(settings, file, seriesFrames.get(file.getValue()), sr);
+                    Combine.run(settings, file, positionsFrames.get(file.getValue()), pos);
                     /////////
                 } catch (FormatException | IOException ex) {
                     Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(settings.delete){
-                    for(int fr=0; fr<seriesFrames.get(file.getValue())[1];fr++){
+                    for(int fr=0; fr<positionsFrames.get(file.getValue())[1];fr++){
                         for(int ch=0 ; ch<settings.channels ; ch++){
                             
                             
-                            new File(settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch+".tif").delete();
+                            new File(settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
                         }
                     }
                 }
@@ -218,7 +224,7 @@ public class Run{
             }   
         }   
         try {
-            Log.create(settings, files, seriesFrames);
+            Log.create(settings, files, positionsFrames);
         } catch (IOException ex) {
             Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -263,6 +269,6 @@ public class Run{
     private static TreeMap<String,String> files;
     private static TreeMap<String,Pair<double[],int[]>> pxPSF;
     private static ArrayList<String> blackList;
-    private static TreeMap<String,int[]> seriesFrames;
+    private static TreeMap<String,int[]> positionsFrames;
     private static Thread thread = new Thread();
 }

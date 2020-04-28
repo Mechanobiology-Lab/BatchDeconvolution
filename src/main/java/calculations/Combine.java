@@ -34,14 +34,14 @@ import tools.Settings;
  * @author Zbigniew Baster
  */
 public class Combine {
-    public static void run(Settings settings, Map.Entry<String,String> file, int[] seriesFrames, int sr) throws FormatException, IOException{
+    public static void run(Settings settings, Map.Entry<String,String> file, int[] positionsFrames, int pos) throws FormatException, IOException{
         imps = new ArrayList<>();
         
-        IJ.log("Combineing: "+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf(".")));
+        IJ.log("Combining: "+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf(".")));
         
-        for(int fr = 0; fr < seriesFrames[1]; fr++){
+        for(int fr = 0; fr < positionsFrames[1]; fr++){
             for(int ch = 0; ch < settings.channels; ch++){
-                imgPath = settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_sr"+sr+"_fr"+fr+"_ch"+ch+".tif";
+                imgPath = settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
                 
                 imps.add(IJ.openImage(imgPath));
             }
@@ -49,7 +49,7 @@ public class Combine {
         
         imp = Concatenator.run(imps.toArray(new ImagePlus[imps.size()]));
         
-        if(seriesFrames[1] > 1) imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], seriesFrames[1], "xyzct", "Color");
+        if(positionsFrames[1] > 1) imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], positionsFrames[1], "xyzct", "Color");
         
         for(int i=0; i<imps.size(); i++){
             imps.get(i).close();
@@ -60,7 +60,7 @@ public class Combine {
                      
         outputPath=settings.outputPath;
         outputPath+="\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."));
-        if(seriesFrames[0] > 1) outputPath+="_sr"+sr;
+        if(positionsFrames[0] > 1) outputPath+="_pos"+pos;
         outputPath+="_d.tif";
         
         if(!new File(outputPath).exists()){

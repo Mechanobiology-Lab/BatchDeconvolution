@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.NumberFormatter;
 import calculations.Run;
+import ij.IJ;
 
 /**
  *
@@ -844,13 +845,13 @@ public class Menu extends javax.swing.JFrame {
         initComponents(); 
                     
         try {
-            if(new File(".\\BDsettings.dat").exists()){
-                IO.loadSettings(".\\BDsettings.dat", settings);
+            if(new File("plugins\\BatchDeconvolution\\BDsettings.dat").exists()){
+                IO.loadSettings("plugins\\BatchDeconvolution\\BDsettings.dat", settings);
                 loadSettings(settings);
             }else{
 
                 readSettings(settings);
-                IO.saveSettings(".\\BDsettings.dat", settings);
+                IO.saveSettings("plugins\\BatchDeconvolution\\BDsettings.dat", settings);
 
             }                
         }catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
@@ -4902,7 +4903,7 @@ public class Menu extends javax.swing.JFrame {
     private void jButton_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SaveActionPerformed
         readSettings(settings);
                 
-        if(settings.loadSavePath==null)workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
+        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
         else workingPath = settings.loadSavePath;
         
         chooser = new JFileChooser(){
@@ -4950,7 +4951,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_SaveActionPerformed
 
     private void jButton_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoadActionPerformed
-        if(settings.loadSavePath==null)workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
+        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
         else workingPath = settings.loadSavePath;
         chooser = new JFileChooser();
         chooser.setDialogTitle("Select save file");
@@ -4987,14 +4988,17 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_LoadActionPerformed
 
     private void jButton_RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RunActionPerformed
+        
         try {
             readSettings(settings);
             IO.saveSettings(".\\BDsettings.dat", settings);
+            Run.run(settings,extensions,jButton_Run);
+            
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Run.run(settings,extensions,jButton_Run);
+        
     }//GEN-LAST:event_jButton_RunActionPerformed
 
     private void jTabbedPanel_MainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPanel_MainMouseClicked
@@ -5030,10 +5034,34 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Menu().setVisible(true);
-
-        });
+        if(!new File("plugins\\PSFGenerator\\PSFGenerator.jar").exists()){
+            IJ.log("PSFGenerator.jar not found! PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar and restart BatchDeconvolution plugin.");
+            JOptionPane.showMessageDialog(null,"PSFGenerator.jar not found!\n"
+                    + "PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/.\n"
+                    + "Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar\n"
+                    + "and restart BatchDeconvolution plugin.","PSFGenerator.jar not found!",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(!new File("plugins\\DeconvolutionLab2\\DeconvolutionLab_2.jar").exists()){
+            IJ.log("DeconvolutionLab_2.jar not found! DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/DeconvolutionLab/DeconvolutionLab_2.jar and restart BatchDeconvolution plugin.");
+            JOptionPane.showMessageDialog(null,"DeconvolutionLab_2.jar not found!\n"
+                    + "DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/,\n"
+                    + "Place the file in Fiji folder as plugins/DeconvolutionLab/DeconvolutionLab_2.jar\n"
+                    + "and restart BatchDeconvolution plugin.","DeconvolutionLab_2.jar not found!",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            
+            if(!new File("plugins\\DeconvolutionLab2\\FFTW").exists()){
+                IJ.log("FFTW not found in plugins\\DeconvolutionLab2\\ directory! FFTW2 Fourier transform algorithm might be unavailable. FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/. Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\" and restart BatchDeconvolution plugin.");
+                JOptionPane.showMessageDialog(null,"FFTW not found in plugins\\DeconvolutionLab2\\ directory!\n"
+                        + "FFTW2 Fourier transform algorithm might be unavailable.\n"
+                        + "FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/.\n"
+                        + "Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\"\n"
+                        + "and restart BatchDeconvolution plugin.","FFTW not found!",JOptionPane.WARNING_MESSAGE);
+            }
+            java.awt.EventQueue.invokeLater(() -> {
+                new Menu().setVisible(true);
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
