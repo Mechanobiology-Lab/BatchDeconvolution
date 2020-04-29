@@ -1,0 +1,12 @@
+1. Put:
+  A. BatchDeconvolution_plugin-x.x.jar 
+  B. units.dat
+  C. extensions.dat
+into ../Fiji/plugins/BatchDeconvolution folder
+
+2. Access http://bigwww.epfl.ch/algorithms/psfgenerator/
+3. Download PSFGenerator.jar (the standalone version) to ../Fiji/plugnis/PSFGenerator/ folder
+
+4. Access http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/
+5. Download DeconvolutionLab_2.jar to ../Fiji/plugnis/DeconvolutionLab2/ folder
+6. Download (from the same site) FFTW.zip unpack it and put FFTW folder into ../Fiji/plugnis/DeconvolutionLab2/ folder
