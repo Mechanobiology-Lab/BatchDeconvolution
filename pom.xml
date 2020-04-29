@@ -75,7 +75,7 @@
 	<properties>
 		<package-name>batchdeconvolution</package-name>
 		<main-class>BatchDeconvolution</main-class>
-		<license.licenseName>GLP-3.0</license.licenseName>
+		<license.licenseName>GPL-3.0</license.licenseName>
 		<license.copyrightOwners>Jagiellonian University</license.copyrightOwners>
 	</properties>
 
