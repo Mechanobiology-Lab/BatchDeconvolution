@@ -4868,7 +4868,7 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\BDsettings.dat", settings);
+            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4944,7 +4944,7 @@ public class Menu extends javax.swing.JFrame {
         }
         
         try {
-            IO.saveSettings(".\\BDsettings.dat", settings);
+            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4981,7 +4981,7 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\BDsettings.dat", settings);
+            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4991,7 +4991,7 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\BDsettings.dat", settings);
+            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
             Run.run(settings,extensions,jButton_Run);
             
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
@@ -5004,7 +5004,7 @@ public class Menu extends javax.swing.JFrame {
     private void jTabbedPanel_MainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPanel_MainMouseClicked
         try {
             readSettings(settings);
-            IO.saveSettings(".\\BDsettings.dat", settings);
+            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
