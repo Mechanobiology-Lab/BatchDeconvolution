@@ -39,7 +39,7 @@ public class Log {
                     for(int ch=0; ch < settings.channels; ch++){
                         if(settings._BF.get(ch)) continue;
                         
-                        fileImg=file.getValue()+"pos"+pos+"_fr"+fr+"_ch"+ch;
+                        fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
                         if(settings._PSF_calc==0)fileImg = fileImg.substring(fileImg.indexOf("_",fileImg.indexOf("_")+1)+1);
                         
                         pathLog = settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv";
