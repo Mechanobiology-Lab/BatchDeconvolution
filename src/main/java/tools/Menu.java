@@ -4855,15 +4855,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_Position_TVKeyReleased
 
     private void jButton_InfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InfoActionPerformed
-        
-        //Info.show();        // TODO add your handling code here:
-        //int a = 
-        
-        //jTabbedPane_PSFMethod.get
-        //System.out.println(a);
-        //System.out.println(listPSF.get(0));
-        //for(int i=0; i<jTabbedPane_PSFMethod.getTabCount(); i++)listPSF.add(jTabbedPane_PSFMethod.getTitleAt(i));
-        //System.out.println(listPSF.size());
+
         Info.run();
         
         try {
