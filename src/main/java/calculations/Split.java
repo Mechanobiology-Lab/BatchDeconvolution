@@ -21,10 +21,12 @@ import ij.ImagePlus;
 import ij.io.FileSaver;
 import ij.plugin.Duplicator;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,16 @@ import tools.Settings;
  */
 public class Split {
     public static void run(Settings settings, Map.Entry<String,String> file, TreeMap<String,int[]> positionsFrames, TreeMap<String,Pair<double[],int[]>> pxPSF, ArrayList<String> blackList) throws IOException, FormatException{
+        units = new TreeMap<>();
+        
+        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"\\plugins\\BatchDeconvolution\\units.dat"));
+        while(sc.hasNextLine())  {
+            line=sc.nextLine().split("\t",2);
+            if(line.length>0) units.put(line[0], Double.parseDouble(line[1]));
+        }
+        sc.close();
+        
+        
         path = settings.intermediatePath+"\\Split";
         if(!new File(path).exists()){
             new File(path).mkdirs();
@@ -66,12 +78,35 @@ public class Split {
         dimensions = new int[]{imp.getDimensions()[0],imp.getDimensions()[1],imp.getDimensions()[3]}; // 0-width, 1-height, 3-slices
         frames = imp.getDimensions()[4]; 
 
-
+        if(imps.length>1){
+            for(int pos = 0; pos <imps.length; pos++){
+                if(!new File(settings.outputPath+"\\"+file.getValue()+"_pos"+pos+"_d.tif").exists()){
+                    break;
+                }
+                if(pos == imps.length-1){
+                    blackList.add(file.getKey());
+                    IJ.log(file.getValue()+" already deconvolved");
+                    for(ImagePlus images :imps) images.close();
+                    IJ.freeMemory();
+                    System.gc();
+                    return;
+                }
+            }
+        }
 
         //prepare databes for PSF calc  
         if(settings._PSF_calc!=2){
+            if(!units.containsKey(imp.getCalibration().getUnit())){
+                blackList.add(file.getKey());
+                IJ.log(file.getValue()+": scale units not recognized!");
+                for(ImagePlus images :imps) images.close();
+                IJ.freeMemory();
+                System.gc();
+                return;
+            }
+            
             try {
-                pxXYZ = new double[]{Scale.nm(imp.getCalibration().pixelWidth, imp.getCalibration().getUnit()),Scale.nm(imp.getCalibration().pixelDepth, imp.getCalibration().getUnit())}; //0-XY, 1-Z
+                pxXYZ = new double[]{Scale.nm(imp.getCalibration().pixelWidth, imp.getCalibration().getUnit(), units),Scale.nm(imp.getCalibration().pixelDepth, imp.getCalibration().getUnit(), units)}; //0-XY, 1-Z
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Split.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -124,4 +159,7 @@ public class Split {
     private static ImagePlus imp;
     private static double[] pxXYZ;
     private static ImporterOptions options;
+    private static TreeMap<String,Double> units;
+    private static Scanner sc;
+    private static String[] line;
 }

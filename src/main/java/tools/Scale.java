@@ -27,19 +27,9 @@ import java.util.TreeMap;
  * @author Zbigniew Baster
  */
 public class Scale {
-    public static double nm(double val, String unit) throws FileNotFoundException{
-        units = new TreeMap<>();
+    public static double nm(double val, String unit, TreeMap<String,Double> units) throws FileNotFoundException{
         
-        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"\\plugins\\BatchDeconvolution\\units.dat"));
-        while(sc.hasNextLine())  {
-            line=sc.nextLine().split("\t",2);
-            if(line.length>0) units.put(line[0], Double.parseDouble(line[1]));
-        }
-        sc.close();
         return val*units.get("nm")/units.get(unit);
     }
     
-    private static TreeMap<String,Double> units;
-    private static Scanner sc;
-    private static String[] line;
 }

@@ -59,7 +59,8 @@ public class PSF {
                 Logger.getLogger(PSF.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+        IJ.freeMemory();
+        System.gc();
     }
     
     public static void bf(String inPath, String outPath){

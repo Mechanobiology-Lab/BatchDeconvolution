@@ -38,8 +38,14 @@ import tools.IO;
  */
 public class Run{
     public static void run(Settings settings, ArrayList<String> extensions,JButton jButton_Run){
+        if( !(new File(settings.inputPath).exists()) ){
+            IJ.log("Input path does not exist!");
+            JOptionPane.showMessageDialog(null,"Input path does not exist!","Input path does not exist!",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if( settings._PSF_calc == 2 && !(new File(settings._PSFPath).exists()) ){
-        IJ.log("PSF file not found!");
+            IJ.log("PSF file not found!");
             JOptionPane.showMessageDialog(null,"PSF file not found!\n"
                     + "Change PSF settings and restart calculations","PSF file not found!",JOptionPane.ERROR_MESSAGE);
             return;
@@ -56,6 +62,7 @@ public class Run{
                     if(jButton_Run!=null)jButton_Run.setText("Stop");
                     files = new TreeMap<>();
                     positionsFrames = new TreeMap<>();
+                    blackList = new ArrayList<>();
 
                     if(jButton_Run!=null)Menu.readSettings(settings);
 
@@ -63,7 +70,7 @@ public class Run{
                     for(String f: new File(settings.inputPath).list()){                                     //all files ininput directory
                         if(new File(settings.inputPath+"\\"+f).isDirectory()){                              //folder - continue
                             continue;
-                        }else if(!extensions.contains(f.substring(f.lastIndexOf(".")+1, f.length()))){      //non image - continue
+                        }else if(!extensions.contains(f.substring(f.lastIndexOf(".")+1, f.length()).toLowerCase())){      //non image - continue
                             continue;
                         }else{    
                             files.put(settings.inputPath+"\\"+f,f.substring(0, f.lastIndexOf(".")));       //add to files list
@@ -73,9 +80,16 @@ public class Run{
                     if(!files.isEmpty()){
                         for(Map.Entry<String,String> f:files.entrySet()){                                     
                             if(new File(settings.outputPath+"\\"+f.getValue()+"_d.tif").exists()){          //remove already deconvolved files from the list
-                                files.remove(f.getKey());
+                                blackList.add(f.getKey());
                             }
                         }
+                        
+                        for(Object bl: blackList.toArray()){                                              //Remove from calculations files already deconvolved
+                            IJ.log(files.get(bl)+" already deconvolved");
+                            IJ.log(files.get(bl)+" removed form further calculations");
+                            files.remove(bl);
+                        }
+                        blackList.clear();
 
                         if(!files.isEmpty()){
                             //create folders
@@ -89,15 +103,14 @@ public class Run{
                             } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
                                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
+                            
                             //split files into channels ##############################################
                             if(settings._PSF_calc!=2){
-                                pxPSF = new TreeMap<String,Pair<double[],int[]>>();
+                                pxPSF = new TreeMap<>();
                             }             
 
                             try {
-                                blackList = new ArrayList<String>();
-
+                                
                                 for(Map.Entry<String,String> f:files.entrySet()){                  //has to go for all files before goin to PSF calc
                                     Split.run(settings,f,positionsFrames,pxPSF,blackList);
                                 }
@@ -105,12 +118,14 @@ public class Run{
                                 for(Object bl: blackList.toArray()){                               //Remove from calculations files with wrong number of channels
                                     IJ.log(files.get(bl)+" removed form further calculations"); 
                                     files.remove(bl);
-                                    blackList.clear();
                                 }
+                                blackList.clear();
+                                
                             } catch (IOException | FormatException ex) {
                                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
+                        }
+                        if(!files.isEmpty()){
                             //####################################################################
                             //prepare PSF config files
                             try {
@@ -130,8 +145,8 @@ public class Run{
                             JOptionPane.showMessageDialog(null,"Finished!","Finished!",JOptionPane.INFORMATION_MESSAGE);                      
                             
                         }else{
-                        IJ.log("All files from the are folder alredy deconvolved");
-                        JOptionPane.showMessageDialog(null,"All files from the are folder alredy deconvolved!","Warning!",JOptionPane.WARNING_MESSAGE);
+                        IJ.log("All "+settings.channels+"-channel files from the folder are alredy deconvolved!");
+                        JOptionPane.showMessageDialog(null,"All "+settings.channels+"-channel files from the folder are alredy deconvolved!","Warning!",JOptionPane.WARNING_MESSAGE);
                         }
                     }else{
                         IJ.log("No files in the selected folder!");
@@ -173,6 +188,11 @@ public class Run{
         
         for(Map.Entry<String,String> file:files.entrySet()){                    //input file
             for(int pos=0; pos<positionsFrames.get(file.getValue())[0];pos++){        //positionss
+                if(new File(settings.outputPath+"\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif").exists()) {
+                    IJ.log(file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif already deconvolved");
+                    continue;
+                }
+                
                 for(int fr=0; fr<positionsFrames.get(file.getValue())[1];fr++){    //
                     for(int ch=0 ; ch<settings.channels ; ch++){
                                                 
@@ -181,8 +201,7 @@ public class Run{
                             try {
                                 
                                 if(settings._BF.get(ch)){
-                                    PSF.bf(settings.intermediatePath+"\\Split\\"+fileName,pathDeconvolved+"\\"+fileName);
-                                    //FileUtils.copyFile(new File(settings.intermediatePath+"\\Split\\"+fileName), new File(pathDeconvolved+"\\"+fileName));
+                                    PSF.bf(settings.intermediatePath+"\\Split\\"+fileName,pathDeconvolved+"\\"+fileName.replaceAll(" ", ""));
                                 }else{   
                                     //calculate PSF
                                     if(settings._PSF_calc != 2 && pos == 0 && fr == 0){
@@ -209,7 +228,7 @@ public class Run{
                         for(int ch=0 ; ch<settings.channels ; ch++){
                             
                             
-                            new File(settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
+                            new File(settings.intermediatePath+"\\Deconvolved\\"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
                         }
                     }
                 }

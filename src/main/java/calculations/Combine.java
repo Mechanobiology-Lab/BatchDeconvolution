@@ -37,40 +37,51 @@ public class Combine {
     public static void run(Settings settings, Map.Entry<String,String> file, int[] positionsFrames, int pos) throws FormatException, IOException{
         imps = new ArrayList<>();
         
-        IJ.log("Combining: "+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf(".")));
+        outputFile=file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."));
+        if(positionsFrames[0] > 1) outputFile+="_pos"+pos;
+        outputFile+="_d.tif";
+        
+        IJ.log("Combining: "+outputFile);
         
         for(int fr = 0; fr < positionsFrames[1]; fr++){
             for(int ch = 0; ch < settings.channels; ch++){
-                imgPath = settings.intermediatePath+"\\Deconvolved\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
+                imgPath = settings.intermediatePath+"\\Deconvolved\\"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
                 
                 imps.add(IJ.openImage(imgPath));
             }
         }
         
-        imp = Concatenator.run(imps.toArray(new ImagePlus[imps.size()]));
         
-        if(positionsFrames[1] > 1) imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], positionsFrames[1], "xyzct", "Color");
+        imp = Concatenator.run(imps.toArray(new ImagePlus[imps.size()]));
         
         for(int i=0; i<imps.size(); i++){
             imps.get(i).close();
         }
         imps.clear();
-        imp.copyAttributes(BF.openImagePlus(file.getKey())[0]);
+                
+        if(positionsFrames[1] > 1) imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], positionsFrames[1], "xyzct", "Color");
+        
+
+        if( pos==0 ){
+            imp.copyAttributes(BF.openImagePlus(file.getKey())[0]);
+        }else{
+            imp.copyAttributes(BF.openImagePlus(settings.outputPath+"\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos0_d.tif")[0]);
+        }
        
                      
-        outputPath=settings.outputPath;
-        outputPath+="\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."));
-        if(positionsFrames[0] > 1) outputPath+="_pos"+pos;
-        outputPath+="_d.tif";
+        outputFile=settings.outputPath+"\\"+outputFile;
         
-        if(!new File(outputPath).exists()){
-            new FileSaver(imp).saveAsTiff(outputPath);
+        if(!new File(outputFile).exists()){
+            new FileSaver(imp).saveAsTiff(outputFile);
         }
         imp.close();
+        
+        IJ.freeMemory();
+        System.gc();
     }
     
     private static ArrayList<ImagePlus> imps;
     private static ImagePlus imp;
     private static String imgPath;
-    private static String outputPath;
+    private static String outputFile;
 }
