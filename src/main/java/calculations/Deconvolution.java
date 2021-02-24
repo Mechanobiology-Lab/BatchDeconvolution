@@ -33,7 +33,7 @@ public class Deconvolution {
 
         fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
         IJ.log("Deconvolving: "+fileImg+".tif");
-        Runtime.getRuntime().exec("java -jar \""+pathDeconvolutionLab+"\" Run"+parameters).waitFor();
+        Runtime.getRuntime().exec("java -Xmx32g -jar \""+pathDeconvolutionLab+"\" Run"+parameters).waitFor();
                 
         if(settings._PSF_calc==0)fileImg=fileImg.substring(fileImg.indexOf("_",fileImg.indexOf("_")+1)+1);
         if(new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv").exists())new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv").delete();

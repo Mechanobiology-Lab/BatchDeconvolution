@@ -14,7 +14,7 @@
 
 	<groupId>pl.edu.uj.fais.biophysics</groupId>
 	<artifactId>batchdeconvolution_plugin</artifactId>
-	<version>1.0</version>
+	<version>1.01</version>
 
 	<name>BatchDeconvolution</name>
 	<description>BatchDeconvolution is a Fiji plugin allowing to increase workflow of a deconvolution process </description>
