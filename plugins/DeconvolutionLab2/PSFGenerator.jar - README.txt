@@ -1,1 +1,0 @@
-Download PSFGenerator.jar (the standalone version) from http://bigwww.epfl.ch/algorithms/psfgenerator/
