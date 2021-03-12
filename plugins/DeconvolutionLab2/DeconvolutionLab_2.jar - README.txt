@@ -1,1 +1,1 @@
-5. Download DeconvolutionLab_2.jar from http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/ and place it here
+Download DeconvolutionLab_2.jar from http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/ and place it here
