@@ -50,14 +50,14 @@ public class BatchDeconvolution implements PlugIn {
                 settings._BF();
                 IO.loadExtensions();
                 
-                if(!new File("plugins\\PSFGenerator\\PSFGenerator.jar").exists()){
+                if(!new File("plugins/PSFGenerator/PSFGenerator.jar").exists()){
                     IJ.log("PSFGenerator.jar not found! PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar and restart BatchDeconvolution plugin.");
                     JOptionPane.showMessageDialog(null,"PSFGenerator.jar not found!\n"
                             + "PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/.\n"
                             + "Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar\n"
                             + "and restart BatchDeconvolution plugin.","PSFGenerator.jar not found!",JOptionPane.ERROR_MESSAGE);
                 }
-                else if(!new File("plugins\\DeconvolutionLab2\\DeconvolutionLab_2.jar").exists()){
+                else if(!new File("plugins/DeconvolutionLab2/DeconvolutionLab_2.jar").exists()){
                     IJ.log("DeconvolutionLab_2.jar not found! DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/DeconvolutionLab/DeconvolutionLab_2.jar and restart BatchDeconvolution plugin.");
                     JOptionPane.showMessageDialog(null,"DeconvolutionLab_2.jar not found!\n"
                             + "DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/,\n"
@@ -66,9 +66,9 @@ public class BatchDeconvolution implements PlugIn {
                 }
                 else{
 
-                    if(!new File("plugins\\DeconvolutionLab2\\FFTW").exists()){
-                        IJ.log("FFTW not found in plugins\\DeconvolutionLab2\\ directory! FFTW2 Fourier transform algorithm might be unavailable. FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/. Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\" and restart BatchDeconvolution plugin.");
-                        JOptionPane.showMessageDialog(null,"FFTW not found in plugins\\DeconvolutionLab2\\ directory!\n"
+                    if(!new File("plugins/DeconvolutionLab2/FFTW").exists()){
+                        IJ.log("FFTW not found in plugins/DeconvolutionLab2/ directory! FFTW2 Fourier transform algorithm might be unavailable. FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/. Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\" and restart BatchDeconvolution plugin.");
+                        JOptionPane.showMessageDialog(null,"FFTW not found in plugins/DeconvolutionLab2/ directory!\n"
                                 + "FFTW2 Fourier transform algorithm might be unavailable.\n"
                                 + "FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/.\n"
                                 + "Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\"\n"

@@ -28,7 +28,7 @@ import tools.Settings;
  */
 public class Deconvolution {
     public static void run(Settings settings, Map.Entry<String,String> file, int pos, int fr, int ch) throws IOException, InterruptedException{
-        pathDeconvolutionLab = new File("").getAbsolutePath()+"\\plugins\\DeconvolutionLab2\\DeconvolutionLab_2.jar";
+        pathDeconvolutionLab = new File("").getAbsolutePath()+"/plugins/DeconvolutionLab2/DeconvolutionLab_2.jar";
         parameters=parameters(settings, file, pos, fr, ch);
 
         fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
@@ -36,11 +36,11 @@ public class Deconvolution {
         Runtime.getRuntime().exec("java -Xmx32g -jar \""+pathDeconvolutionLab+"\" Run"+parameters).waitFor();
                 
         if(settings._PSF_calc==0)fileImg=fileImg.substring(fileImg.indexOf("_",fileImg.indexOf("_")+1)+1);
-        if(new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv").exists())new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv").delete();
-        new File(settings.intermediatePath+"\\Log\\stats.csv").renameTo(new File(settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv"));
+        if(new File(settings.intermediatePath+"/Log/stats_"+fileImg+".csv").exists())new File(settings.intermediatePath+"/Log/stats_"+fileImg+".csv").delete();
+        new File(settings.intermediatePath+"/Log/stats.csv").renameTo(new File(settings.intermediatePath+"/Log/stats_"+fileImg+".csv"));
         
         if(settings.delete){
-            new File(settings.intermediatePath+"\\Split\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
+            new File(settings.intermediatePath+"/Split/"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
         }
         
         IJ.freeMemory();
@@ -51,10 +51,10 @@ public class Deconvolution {
         
         fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
         // image
-        image = " -image file "+settings.intermediatePath+"\\Split\\"+fileImg+".tif";
+        image = " -image file "+settings.intermediatePath+"/Split/"+fileImg+".tif";
         
         // psf
-        psf = " -psf file "+settings.intermediatePath+"\\PSF\\";
+        psf = " -psf file "+settings.intermediatePath+"/PSF/";
         switch(settings._PSF_calc){
             case 0:
                 psf+="PSF_"+file.getValue().substring(0,file.getValue().indexOf("_",file.getValue().indexOf("_")+1))+"_ch"+ch+".tif";
@@ -131,7 +131,7 @@ public class Deconvolution {
                 break;
         }
         
-        out = " -out stack ..\\Deconvolved\\"+fileImg+" noshow";
+        out = " -out stack ../Deconvolved/"+fileImg+" noshow";
         monitor = " -monitor table";
         display = " -display no";
         verbose = " -verbose log";
@@ -148,7 +148,7 @@ public class Deconvolution {
         //norm
         if(settings._PSFnorm.equals("no"))norm = " -norm 1.0";
         else norm = " -norm "+settings._PSFnorm;
-        path = " -path "+settings.intermediatePath+"\\Log";
+        path = " -path "+settings.intermediatePath+"/Log";
         
         //fft
         if(settings.fft.equals("Fastest")) fft = ""; 
@@ -218,5 +218,5 @@ public class Deconvolution {
 	/*	
 		display_d = " -display no";
 		out_file_d = " -out stack deconv"+i+" noshow";
-		out_path_d = " -path "+input+"Final\\";
+		out_path_d = " -path "+input+"Final/";
 		*/

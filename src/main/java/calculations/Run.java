@@ -68,18 +68,18 @@ public class Run{
 
                     //create files list
                     for(String f: new File(settings.inputPath).list()){                                     //all files ininput directory
-                        if(new File(settings.inputPath+"\\"+f).isDirectory()){                              //folder - continue
+                        if(new File(settings.inputPath+"/"+f).isDirectory()){                              //folder - continue
                             continue;
                         }else if(!extensions.contains(f.substring(f.lastIndexOf(".")+1, f.length()).toLowerCase())){      //non image - continue
                             continue;
                         }else{    
-                            files.put(settings.inputPath+"\\"+f,f.substring(0, f.lastIndexOf(".")));       //add to files list
+                            files.put(settings.inputPath+"/"+f,f.substring(0, f.lastIndexOf(".")));       //add to files list
                         }          
                     }
 
                     if(!files.isEmpty()){
                         for(Map.Entry<String,String> f:files.entrySet()){                                     
-                            if(new File(settings.outputPath+"\\"+f.getValue()+"_d.tif").exists()){          //remove already deconvolved files from the list
+                            if(new File(settings.outputPath+"/"+f.getValue()+"_d.tif").exists()){          //remove already deconvolved files from the list
                                 blackList.add(f.getKey());
                             }
                         }
@@ -99,7 +99,7 @@ public class Run{
 
                             //save settings
                             try {
-                                IO.saveSettings(settings.logPath+"\\BDsettings.dat", settings);
+                                IO.saveSettings(settings.logPath+"/BDsettings.dat", settings);
                             } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
                                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -167,9 +167,9 @@ public class Run{
     
     public static void calculate(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> positionsFrames){
         
-        pathPSF = settings.intermediatePath+"\\PSF";
-        pathDeconvolved = settings.intermediatePath+"\\Deconvolved";
-        pathLog = settings.intermediatePath+"\\Log";
+        pathPSF = settings.intermediatePath+"/PSF";
+        pathDeconvolved = settings.intermediatePath+"/Deconvolved";
+        pathLog = settings.intermediatePath+"/Log";
         if(!new File(pathPSF).exists()){
             new File(pathPSF).mkdirs();
         }        
@@ -188,8 +188,8 @@ public class Run{
         
         for(Map.Entry<String,String> file:files.entrySet()){                    //input file
             for(int pos=0; pos<positionsFrames.get(file.getValue())[0];pos++){        //positionss
-                if(new File(settings.outputPath+"\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif").exists()) {
-                    IJ.log(file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif already deconvolved");
+                if(new File(settings.outputPath+"/"+file.getKey().substring(file.getKey().lastIndexOf("/")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif").exists()) {
+                    IJ.log(file.getKey().substring(file.getKey().lastIndexOf("/")+1, file.getKey().lastIndexOf("."))+"_pos"+pos+"_d.tif already deconvolved");
                     continue;
                 }
                 
@@ -197,11 +197,11 @@ public class Run{
                     for(int ch=0 ; ch<settings.channels ; ch++){
                                                 
                         fileName=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
-                        if(!new File(pathDeconvolved+"\\"+fileName).exists()){
+                        if(!new File(pathDeconvolved+"/"+fileName).exists()){
                             try {
                                 
                                 if(settings._BF.get(ch)){
-                                    PSF.bf(settings.intermediatePath+"\\Split\\"+fileName,pathDeconvolved+"\\"+fileName.replaceAll(" ", ""));
+                                    PSF.bf(settings.intermediatePath+"/Split/"+fileName,pathDeconvolved+"/"+fileName.replaceAll(" ", ""));
                                 }else{   
                                     //calculate PSF
                                     if(settings._PSF_calc != 2 && pos == 0 && fr == 0){
@@ -228,7 +228,7 @@ public class Run{
                         for(int ch=0 ; ch<settings.channels ; ch++){
                             
                             
-                            new File(settings.intermediatePath+"\\Deconvolved\\"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
+                            new File(settings.intermediatePath+"/Deconvolved/"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif").delete();
                         }
                     }
                 }
@@ -236,8 +236,8 @@ public class Run{
             if(settings._PSF_calc == 1 && settings.delete && settings.deletePSF){
                 for(int ch=0 ; ch<settings.channels ; ch++){
                     if(!settings._BF.get(ch)){
-                        new File(settings.intermediatePath+"\\PSF\\PSF_"+file.getValue()+"_ch"+ch+".tif").delete();
-                        new File(settings.intermediatePath+"\\PSF_config\\PSF_"+file.getValue()+"_ch"+ch+".txt").delete();
+                        new File(settings.intermediatePath+"/PSF/PSF_"+file.getValue()+"_ch"+ch+".tif").delete();
+                        new File(settings.intermediatePath+"/PSF_config/PSF_"+file.getValue()+"_ch"+ch+".txt").delete();
                     }
                 }
             }   
@@ -250,16 +250,16 @@ public class Run{
         
         if(settings.delete){
             IJ.log("Deleting intermediate files");
-            delete(settings.intermediatePath+"\\Split");
-            delete(settings.intermediatePath+"\\Deconvolved");
+            delete(settings.intermediatePath+"/Split");
+            delete(settings.intermediatePath+"/Deconvolved");
             
             if(settings.deletePSF){
-                delete(settings.intermediatePath+"\\PSF");
-                delete(settings.intermediatePath+"\\PSF_config");
+                delete(settings.intermediatePath+"/PSF");
+                delete(settings.intermediatePath+"/PSF_config");
             }     
             
             if(settings.deleteLog){
-                delete(settings.intermediatePath+"\\PSF");
+                delete(settings.intermediatePath+"/PSF");
             }
             
             if(settings.deleteLog && settings.deletePSF){
@@ -276,7 +276,7 @@ public class Run{
     public static void delete(String path){
         while(!new File(path).delete() && new File(path).isDirectory()){
             for(String file: new File(path).list()){
-                delete(path+"\\"+file);
+                delete(path+"/"+file);
             }
         }
     }

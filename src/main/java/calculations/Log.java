@@ -30,7 +30,7 @@ import tools.Settings;
 public class Log {
     public static void create(Settings settings, TreeMap<String,String> files, TreeMap<String,int[]> positionsFrames) throws IOException{
         first = true;
-        pathFinalLog=settings.logPath+"\\log.csv";
+        pathFinalLog=settings.logPath+"/log.csv";
         fw = new FileWriter(pathFinalLog);
         
         for(Map.Entry<String,String> file: files.entrySet()){
@@ -42,7 +42,7 @@ public class Log {
                         fileImg=file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch;
                         if(settings._PSF_calc==0)fileImg = fileImg.substring(fileImg.indexOf("_",fileImg.indexOf("_")+1)+1);
                         
-                        pathLog = settings.intermediatePath+"\\Log\\stats_"+fileImg+".csv";
+                        pathLog = settings.intermediatePath+"/Log/stats_"+fileImg+".csv";
                         results = ResultsTable.open2(pathLog);
                         
                         if(first){

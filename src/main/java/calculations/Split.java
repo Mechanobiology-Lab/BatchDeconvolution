@@ -45,7 +45,7 @@ public class Split {
     public static void run(Settings settings, Map.Entry<String,String> file, TreeMap<String,int[]> positionsFrames, TreeMap<String,Pair<double[],int[]>> pxPSF, ArrayList<String> blackList) throws IOException, FormatException{
         units = new TreeMap<>();
         
-        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"\\plugins\\BatchDeconvolution\\units.dat"));
+        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"/plugins/BatchDeconvolution/units.dat"));
         while(sc.hasNextLine())  {
             line=sc.nextLine().split("\t",2);
             if(line.length>0) units.put(line[0], Double.parseDouble(line[1]));
@@ -53,11 +53,11 @@ public class Split {
         sc.close();
         
         
-        path = settings.intermediatePath+"\\Split";
+        path = settings.intermediatePath+"/Split";
         if(!new File(path).exists()){
             new File(path).mkdirs();
         }
-        IJ.log("Splitting: "+file.getKey().substring(file.getKey().lastIndexOf("\\")+1));
+        IJ.log("Splitting: "+file.getKey().substring(file.getKey().lastIndexOf("/")+1));
         
         options = new ImporterOptions();
         options.setId(file.getKey());
@@ -80,7 +80,7 @@ public class Split {
 
         if(imps.length>1){
             for(int pos = 0; pos <imps.length; pos++){
-                if(!new File(settings.outputPath+"\\"+file.getValue()+"_pos"+pos+"_d.tif").exists()){
+                if(!new File(settings.outputPath+"/"+file.getValue()+"_pos"+pos+"_d.tif").exists()){
                     break;
                 }
                 if(pos == imps.length-1){
@@ -138,7 +138,7 @@ public class Split {
         for(int pos=0; pos < imps.length; pos++){            
             for(int fr=0;fr<frames;fr++){
                 for(int ch=0;ch<channels;ch++){
-                    outputPath=path+"\\"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";   
+                    outputPath=path+"/"+file.getValue()+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";   
                     if(!new File(outputPath).exists()){
                         new FileSaver(new Duplicator().run(imps[pos], ch+1, ch+1, 1, dimensions[2], fr+1, fr+1)).saveAsTiff(outputPath);
                     }

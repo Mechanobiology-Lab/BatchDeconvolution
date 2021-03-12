@@ -72,7 +72,7 @@ public class IO {
     public static ArrayList<String> loadExtensions () throws FileNotFoundException{
         array = new ArrayList<>();
         
-        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"\\plugins\\BatchDeconvolution\\extensions.dat"));
+        sc=new Scanner(new FileInputStream(new File("").getAbsolutePath()+"/plugins/BatchDeconvolution/extensions.dat"));
         while(sc.hasNext())  {
             array.add(sc.next());
         }

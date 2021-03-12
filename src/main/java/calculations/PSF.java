@@ -41,20 +41,20 @@ public class PSF {
     public static void calculate(Settings settings, Map.Entry<String,String> file, int ch){
         switch(settings._PSF_calc){
             case 0:
-                pathPSF=settings.intermediatePath+"\\PSF\\PSF_"+file.getValue().substring(0,file.getValue().indexOf("_",file.getValue().indexOf("_")+1))+"_ch"+ch+".tif";
+                pathPSF=settings.intermediatePath+"/PSF/PSF_"+file.getValue().substring(0,file.getValue().indexOf("_",file.getValue().indexOf("_")+1))+"_ch"+ch+".tif";
                 break;
             case 1:
-                pathPSF=settings.intermediatePath+"\\PSF\\PSF_"+file.getValue()+"_ch"+ch+".tif";
+                pathPSF=settings.intermediatePath+"/PSF/PSF_"+file.getValue()+"_ch"+ch+".tif";
                 break;
         }
         
         if(!new File(pathPSF).exists()){
             try {
-                IJ.log("Calculating PSF: "+pathPSF.substring(pathPSF.lastIndexOf("\\")+1));
-                pathGenerator = new File("").getAbsolutePath()+"\\plugins\\PSFGenerator\\PSFGenerator.jar";
+                IJ.log("Calculating PSF: "+pathPSF.substring(pathPSF.lastIndexOf("/")+1));
+                pathGenerator = new File("").getAbsolutePath()+"/plugins/PSFGenerator/PSFGenerator.jar";
                 
-                pathConfig=settings.intermediatePath+"\\PSF_config\\"+pathPSF.substring(pathPSF.lastIndexOf("\\")+1,pathPSF.lastIndexOf("."))+".txt";
-                Runtime.getRuntime().exec("cmd /c cd /d \""+settings.intermediatePath+"\\PSF"+"\" & java -Xmx32g -cp \""+pathGenerator+"\" PSFGenerator \""+pathConfig+"\" & ren \"PSF "+settings.modelPSF+".tif\" \""+pathPSF.substring(pathPSF.lastIndexOf("\\")+1)+"\"").waitFor();
+                pathConfig=settings.intermediatePath+"/PSF_config/"+pathPSF.substring(pathPSF.lastIndexOf("/")+1,pathPSF.lastIndexOf("."))+".txt";
+                Runtime.getRuntime().exec("cmd /c cd /d \""+settings.intermediatePath+"/PSF"+"\" & java -Xmx32g -cp \""+pathGenerator+"\" PSFGenerator \""+pathConfig+"\" & ren \"PSF "+settings.modelPSF+".tif\" \""+pathPSF.substring(pathPSF.lastIndexOf("/")+1)+"\"").waitFor();
             } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(PSF.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -92,12 +92,12 @@ public class PSF {
             }
             
             if(settings.channels==channels){
-                if(!new File(settings.intermediatePath+"\\PSF\\PSF_ch"+ch+".tif").exists()){
-                    new FileSaver(new Duplicator().run(imp, ch+1, ch+1, 1, slices, 1, 1)).saveAsTiff(settings.intermediatePath+"\\PSF\\PSF_ch"+ch+".tif");
+                if(!new File(settings.intermediatePath+"/PSF/PSF_ch"+ch+".tif").exists()){
+                    new FileSaver(new Duplicator().run(imp, ch+1, ch+1, 1, slices, 1, 1)).saveAsTiff(settings.intermediatePath+"/PSF/PSF_ch"+ch+".tif");
                 }
             }else{
-                if(!new File(settings.intermediatePath+"\\PSF\\PSF_ch"+ch+".tif").exists()){
-                    new FileSaver(new Duplicator().run(imp, ch+1-noBF, ch+1-noBF, 1, slices, 1, 1)).saveAsTiff(settings.intermediatePath+"\\PSF\\PSF_ch"+ch+".tif");
+                if(!new File(settings.intermediatePath+"/PSF/PSF_ch"+ch+".tif").exists()){
+                    new FileSaver(new Duplicator().run(imp, ch+1-noBF, ch+1-noBF, 1, slices, 1, 1)).saveAsTiff(settings.intermediatePath+"/PSF/PSF_ch"+ch+".tif");
                 }
             }
         }
@@ -106,15 +106,15 @@ public class PSF {
     
     
     public static void config(Settings settings, String file, Pair<double[],int[]> pxPSF) throws IOException{
-        pathConfig = settings.intermediatePath+"\\PSF_config";
+        pathConfig = settings.intermediatePath+"/PSF_config";
         if(!new File(pathConfig).exists()){
             new File(pathConfig).mkdirs();
         }
         
         for(int ch = 0; ch < settings.channels; ch++){
             if(settings._BF.get(ch))continue;
-            if(!new File(pathConfig+"\\PSF_"+file+"_ch"+ch+".txt").exists()){
-                fw = new FileWriter(pathConfig+"\\PSF_"+file+"_ch"+ch+".txt");
+            if(!new File(pathConfig+"/PSF_"+file+"_ch"+ch+".txt").exists()){
+                fw = new FileWriter(pathConfig+"/PSF_"+file+"_ch"+ch+".txt");
                 
 		fw.write("#PSFGenerator\n");
 		fw.write("#"+new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy").format(new Date())+"\n");

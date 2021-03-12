@@ -845,13 +845,13 @@ public class Menu extends javax.swing.JFrame {
         initComponents(); 
                     
         try {
-            if(new File("plugins\\BatchDeconvolution\\BDsettings.dat").exists()){
-                IO.loadSettings("plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            if(new File("plugins/BatchDeconvolution/BDsettings.dat").exists()){
+                IO.loadSettings("plugins/BatchDeconvolution/BDsettings.dat", settings);
                 loadSettings(settings);
             }else{
 
                 readSettings(settings);
-                IO.saveSettings("plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+                IO.saveSettings("plugins/BatchDeconvolution/BDsettings.dat", settings);
 
             }                
         }catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
@@ -4523,17 +4523,17 @@ public class Menu extends javax.swing.JFrame {
         chooser = new JFileChooser();
         workingPath=jTextField_InputPath.getText();
         while(!new File(workingPath).exists()){
-            if(workingPath.lastIndexOf("\\")==-1) break;
-            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("\\"));
+            if(workingPath.lastIndexOf("/")==-1) break;
+            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("/"));
         }
         chooser.setCurrentDirectory(new File(workingPath));
         chooser.setDialogTitle("Select input directory");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         if (chooser.showDialog(jPanel_IOPaths,"Select") == JFileChooser.APPROVE_OPTION){
             jTextField_InputPath.setText(chooser.getSelectedFile().toString());
-            if(jCheckBox_OutputPath.isSelected()) jTextField_OutputPath.setText(chooser.getSelectedFile().toString()+"\\Output");
-            if(jCheckBox_IntermediatePath.isSelected()) jTextField_IntermediatePath.setText(chooser.getSelectedFile().toString()+"\\Intermediate");
-            if(jCheckBox_LogPath.isSelected()) jTextField_LogPath.setText(chooser.getSelectedFile().toString()+"\\Log");
+            if(jCheckBox_OutputPath.isSelected()) jTextField_OutputPath.setText(chooser.getSelectedFile().toString()+"/Output");
+            if(jCheckBox_IntermediatePath.isSelected()) jTextField_IntermediatePath.setText(chooser.getSelectedFile().toString()+"/Intermediate");
+            if(jCheckBox_LogPath.isSelected()) jTextField_LogPath.setText(chooser.getSelectedFile().toString()+"/Log");
         }
     }//GEN-LAST:event_jButton_InputPathActionPerformed
 
@@ -4541,8 +4541,8 @@ public class Menu extends javax.swing.JFrame {
         chooser = new JFileChooser();         
         workingPath=jTextField_OutputPath.getText();
         while(!new File(workingPath).exists()){
-            if(workingPath.lastIndexOf("\\")==-1) break;
-            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("\\"));
+            if(workingPath.lastIndexOf("/")==-1) break;
+            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("/"));
         }
         chooser.setCurrentDirectory(new File(workingPath));
         chooser.setDialogTitle("Select output directory");
@@ -4561,8 +4561,8 @@ public class Menu extends javax.swing.JFrame {
         chooser = new JFileChooser(); 
         workingPath=jTextField_LogPath.getText();
         while(!new File(workingPath).exists()){
-            if(workingPath.lastIndexOf("\\")==-1) break;
-            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("\\"));
+            if(workingPath.lastIndexOf("/")==-1) break;
+            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("/"));
         }
         chooser.setCurrentDirectory(new File(workingPath));
         chooser.setDialogTitle("Select log directory");
@@ -4581,8 +4581,8 @@ public class Menu extends javax.swing.JFrame {
         chooser = new JFileChooser();
         workingPath=jTextField_PSFPath.getText();
         while(!new File(workingPath).exists()){
-            if(workingPath.lastIndexOf("\\")==-1) break;
-            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("\\"));
+            if(workingPath.lastIndexOf("/")==-1) break;
+            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("/"));
         }
         chooser.setCurrentDirectory(new File(workingPath));
         chooser.setDialogTitle("Select PSF file");
@@ -4860,16 +4860,16 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            IO.saveSettings("./plugins/BatchDeconvolution/BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_InfoActionPerformed
 
     private void jTextField_InputPathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_InputPathKeyReleased
-        if(jCheckBox_OutputPath.isSelected())jTextField_OutputPath.setText(jTextField_InputPath.getText()+"\\Output");
-        if(jCheckBox_IntermediatePath.isSelected())jTextField_IntermediatePath.setText(jTextField_InputPath.getText()+"\\Intermediate");
-        if(jCheckBox_LogPath.isSelected())jTextField_LogPath.setText(jTextField_InputPath.getText()+"\\Log");
+        if(jCheckBox_OutputPath.isSelected())jTextField_OutputPath.setText(jTextField_InputPath.getText()+"/Output");
+        if(jCheckBox_IntermediatePath.isSelected())jTextField_IntermediatePath.setText(jTextField_InputPath.getText()+"/Intermediate");
+        if(jCheckBox_LogPath.isSelected())jTextField_LogPath.setText(jTextField_InputPath.getText()+"/Log");
     }//GEN-LAST:event_jTextField_InputPathKeyReleased
 
     private void jCheckBox_IntermediatePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_IntermediatePathActionPerformed
@@ -4881,8 +4881,8 @@ public class Menu extends javax.swing.JFrame {
         chooser = new JFileChooser();         
         workingPath=jTextField_IntermediatePath.getText();
         while(!new File(workingPath).exists()){
-            if(workingPath.lastIndexOf("\\")==-1) break;
-            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("\\"));
+            if(workingPath.lastIndexOf("/")==-1) break;
+            else workingPath=workingPath.substring(0, workingPath.lastIndexOf("/"));
         }
         chooser.setCurrentDirectory(new File(workingPath));
         chooser.setDialogTitle("Select intermediate directory");
@@ -4895,7 +4895,7 @@ public class Menu extends javax.swing.JFrame {
     private void jButton_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SaveActionPerformed
         readSettings(settings);
                 
-        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
+        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"/BDsettings.dat";
         else workingPath = settings.loadSavePath;
         
         chooser = new JFileChooser(){
@@ -4936,14 +4936,14 @@ public class Menu extends javax.swing.JFrame {
         }
         
         try {
-            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            IO.saveSettings("./plugins/BatchDeconvolution/BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton_SaveActionPerformed
 
     private void jButton_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoadActionPerformed
-        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"\\BDsettings.dat";
+        if(settings.loadSavePath==null || !new File(settings.loadSavePath).exists())workingPath=System.getProperty("user.home")+"/BDsettings.dat";
         else workingPath = settings.loadSavePath;
         chooser = new JFileChooser();
         chooser.setDialogTitle("Select save file");
@@ -4973,7 +4973,7 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            IO.saveSettings("./plugins/BatchDeconvolution/BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4983,7 +4983,7 @@ public class Menu extends javax.swing.JFrame {
         
         try {
             readSettings(settings);
-            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            IO.saveSettings("./plugins/BatchDeconvolution/BDsettings.dat", settings);
             Run.run(settings,extensions,jButton_Run);
             
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
@@ -4996,7 +4996,7 @@ public class Menu extends javax.swing.JFrame {
     private void jTabbedPanel_MainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPanel_MainMouseClicked
         try {
             readSettings(settings);
-            IO.saveSettings(".\\plugins\\BatchDeconvolution\\BDsettings.dat", settings);
+            IO.saveSettings("./plugins/BatchDeconvolution/BDsettings.dat", settings);
         } catch (IOException | IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -5026,14 +5026,14 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        if(!new File("plugins\\PSFGenerator\\PSFGenerator.jar").exists()){
+        if(!new File("plugins/PSFGenerator/PSFGenerator.jar").exists()){
             IJ.log("PSFGenerator.jar not found! PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar and restart BatchDeconvolution plugin.");
             JOptionPane.showMessageDialog(null,"PSFGenerator.jar not found!\n"
                     + "PSFGenerator.jar standalone version is available at http://bigwww.epfl.ch/algorithms/psfgenerator/.\n"
                     + "Place the file in Fiji folder as plugins/PSFGenerator/PSFGenerator.jar\n"
                     + "and restart BatchDeconvolution plugin.","PSFGenerator.jar not found!",JOptionPane.ERROR_MESSAGE);
         }
-        else if(!new File("plugins\\DeconvolutionLab2\\DeconvolutionLab_2.jar").exists()){
+        else if(!new File("plugins/DeconvolutionLab2/DeconvolutionLab_2.jar").exists()){
             IJ.log("DeconvolutionLab_2.jar not found! DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/algorithms/psfgenerator/. Place the file in Fiji folder as plugins/DeconvolutionLab/DeconvolutionLab_2.jar and restart BatchDeconvolution plugin.");
             JOptionPane.showMessageDialog(null,"DeconvolutionLab_2.jar not found!\n"
                     + "DeconvolutionLab_2.jar is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/,\n"
@@ -5042,9 +5042,9 @@ public class Menu extends javax.swing.JFrame {
         }
         else{
             
-            if(!new File("plugins\\DeconvolutionLab2\\FFTW").exists()){
-                IJ.log("FFTW not found in plugins\\DeconvolutionLab2\\ directory! FFTW2 Fourier transform algorithm might be unavailable. FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/. Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\" and restart BatchDeconvolution plugin.");
-                JOptionPane.showMessageDialog(null,"FFTW not found in plugins\\DeconvolutionLab2\\ directory!\n"
+            if(!new File("plugins/DeconvolutionLab2/FFTW").exists()){
+                IJ.log("FFTW not found in plugins/DeconvolutionLab2/ directory! FFTW2 Fourier transform algorithm might be unavailable. FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/. Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\" and restart BatchDeconvolution plugin.");
+                JOptionPane.showMessageDialog(null,"FFTW not found in plugins/DeconvolutionLab2/ directory!\n"
                         + "FFTW2 Fourier transform algorithm might be unavailable.\n"
                         + "FFTW.zip is available at http://bigwww.epfl.ch/deconvolution/deconvolutionlab2/.\n"
                         + "Unpack in Fiji folder as plugins/DeconvolutionLab/FFTW/\"inclued files\"\n"

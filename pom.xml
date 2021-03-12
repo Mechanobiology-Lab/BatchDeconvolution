@@ -14,7 +14,7 @@
 
 	<groupId>pl.edu.uj.fais.biophysics</groupId>
 	<artifactId>batchdeconvolution_plugin</artifactId>
-	<version>1.01</version>
+	<version>1.03</version>
 
 	<name>BatchDeconvolution</name>
 	<description>BatchDeconvolution is a Fiji plugin allowing to increase workflow of a deconvolution process </description>
@@ -106,11 +106,13 @@
           </repository>
 
     </repositories>
-	<dependencies>
+ 
+    <dependencies>
 		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 		</dependency>
+              
 	 <dependency>
 	  <groupId>commons-io</groupId>
 	  <artifactId>commons-io</artifactId>
@@ -146,4 +148,5 @@
         </dependency>
 
 	</dependencies>
+
 </project>

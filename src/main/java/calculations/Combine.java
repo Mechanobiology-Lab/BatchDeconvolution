@@ -37,7 +37,7 @@ public class Combine {
     public static void run(Settings settings, Map.Entry<String,String> file, int[] positionsFrames, int pos) throws FormatException, IOException{
         imps = new ArrayList<>();
         
-        outputFile=file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."));
+        outputFile=file.getKey().substring(file.getKey().lastIndexOf("/")+1, file.getKey().lastIndexOf("."));
         if(positionsFrames[0] > 1) outputFile+="_pos"+pos;
         outputFile+="_d.tif";
         
@@ -45,7 +45,7 @@ public class Combine {
         
         for(int fr = 0; fr < positionsFrames[1]; fr++){
             for(int ch = 0; ch < settings.channels; ch++){
-                imgPath = settings.intermediatePath+"\\Deconvolved\\"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
+                imgPath = settings.intermediatePath+"/Deconvolved/"+file.getValue().replaceAll(" ", "")+"_pos"+pos+"_fr"+fr+"_ch"+ch+".tif";
                 
                 imps.add(IJ.openImage(imgPath));
             }
@@ -59,17 +59,18 @@ public class Combine {
         }
         imps.clear();
                 
-        if(positionsFrames[1] > 1) imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], positionsFrames[1], "xyzct", "Color");
+        /*if(positionsFrames[1] > 1) */
+            imp = HyperStackConverter.toHyperStack(imp,settings.channels, imp.getDimensions()[3], positionsFrames[1], "xyzct", "Color");
         
 
         if( pos==0 ){
             imp.copyAttributes(BF.openImagePlus(file.getKey())[0]);
         }else{
-            imp.copyAttributes(BF.openImagePlus(settings.outputPath+"\\"+file.getKey().substring(file.getKey().lastIndexOf("\\")+1, file.getKey().lastIndexOf("."))+"_pos0_d.tif")[0]);
+            imp.copyAttributes(BF.openImagePlus(settings.outputPath+"/"+file.getKey().substring(file.getKey().lastIndexOf("/")+1, file.getKey().lastIndexOf("."))+"_pos0_d.tif")[0]);
         }
        
                      
-        outputFile=settings.outputPath+"\\"+outputFile;
+        outputFile=settings.outputPath+"/"+outputFile;
         
         if(!new File(outputFile).exists()){
             new FileSaver(imp).saveAsTiff(outputFile);
